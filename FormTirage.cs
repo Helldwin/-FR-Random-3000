@@ -29,7 +29,7 @@ namespace Random
             }
             catch
             {
-                MessageBox.Show("Une erreur s'est produite lors du tirage !", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Le tirage ne peut pas avoir lieu avec une liste vide :/", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -50,13 +50,23 @@ namespace Random
             }        
         }
 
-        private void quitterToolStripMenuItem_Click(object sender, EventArgs e)
+        private void listBoxParticipants_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Application.Exit();
+            if (listBoxParticipants.Items.Count != 0)
+            {
+                buttonSave.Enabled = true;
+            }
+            else
+            {
+                buttonSave.Enabled = false;
+            }
         }
 
-        private void ouvrirUneListeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void buttonLoad_Click(object sender, EventArgs e)
         {
+            panelBande.Height = buttonLoad.Height;
+            panelBande.Top = buttonLoad.Top;
+
             listBoxParticipants.Items.Clear();
 
             var fileContent = string.Empty;
@@ -69,9 +79,9 @@ namespace Random
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                
+
                 filePath = openFileDialog.FileName;
-                
+
                 var fileStream = openFileDialog.OpenFile();
 
                 StreamReader reader = new StreamReader(fileStream);
@@ -88,8 +98,11 @@ namespace Random
             }
         }
 
-        private void sauvegarderLaListeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
+            panelBande.Height = buttonSave.Height;
+            panelBande.Top = buttonSave.Top;
+
             SaveFileDialog path = new SaveFileDialog();
             path.Filter = "txt files (*.txt)|*.txt";
             if (path.ShowDialog() == DialogResult.OK)
@@ -103,19 +116,14 @@ namespace Random
                 sw.Close();
 
             }
-
         }
 
-        private void listBoxParticipants_SelectedIndexChanged(object sender, EventArgs e)
+        private void buttonQuitter_Click(object sender, EventArgs e)
         {
-            if (listBoxParticipants.Items.Count != 0)
-            {
-                sauvegarderLaListeToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                sauvegarderLaListeToolStripMenuItem.Enabled = false;
-            }
+            panelBande.Height = buttonQuitter.Height;
+            panelBande.Top = buttonQuitter.Top;
+
+            Application.Exit();
         }
     }
 
